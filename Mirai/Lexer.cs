@@ -79,6 +79,7 @@ namespace Mirai
             ref ReadOnlyMemory<char> sourceCode,
             SourcePosition position)
         {
+            // TODO: generate?
             var symbol = sourceCode.Span[0] switch
             {
                 '(' => SymbolToken.OpenParenthesis,
@@ -90,6 +91,9 @@ namespace Mirai
                 ';' => SymbolToken.SemiColon,
                 '[' => SymbolToken.OpenSquare,
                 ']' => SymbolToken.CloseSquare,
+                '+' => SymbolToken.Plus,
+                '-' => SymbolToken.Minus,
+                '=' => SymbolToken.Assign,
                 _ => null,
             };
 
@@ -119,27 +123,57 @@ namespace Mirai
 
             var id = span[..endIndex];
 
-            ITokenWithPosition token;
+            IToken token = null;
 
-            // TODO:
-            if (Compare(id, "class"))
-                token = KeywordToken.Class.Wrap(position.AddColumn(endIndex), sourceCode[..endIndex]);
+            if (Compare(id, "case"))
+                token = KeywordToken.Case;
+            else if (Compare(id, "class"))
+                token = KeywordToken.Class;
+            else if (Compare(id, "else"))
+                token = KeywordToken.Else;
+            else if (Compare(id, "enum"))
+                token = KeywordToken.Enum;
+            else if (Compare(id, "if"))
+                token = KeywordToken.If;
+            else if (Compare(id, "internal"))
+                token = KeywordToken.Internal;
             else if (Compare(id, "namespace"))
-                token = KeywordToken.Namespace.Wrap(position.AddColumn(endIndex), sourceCode[..endIndex]);
+                token = KeywordToken.Namespace;
+            else if (Compare(id, "private"))
+                token = KeywordToken.Private;
+            else if (Compare(id, "protected"))
+                token = KeywordToken.Protected;
             else if (Compare(id, "public"))
-                token = KeywordToken.Public.Wrap(position.AddColumn(endIndex), sourceCode[..endIndex]);
+                token = KeywordToken.Public;
             else if (Compare(id, "static"))
-                token = KeywordToken.Static.Wrap(position.AddColumn(endIndex), sourceCode[..endIndex]);
+                token = KeywordToken.Static;
+            else if (Compare(id, "struct"))
+                token = KeywordToken.Struct;
+            else if (Compare(id, "switch"))
+                token = KeywordToken.Switch;
             else if (Compare(id, "using"))
-                token = KeywordToken.Using.Wrap(position.AddColumn(endIndex), sourceCode[..endIndex]);
+                token = KeywordToken.Using;
+            else if (Compare(id, "var"))
+                token = KeywordToken.Var;
             else if (Compare(id, "void"))
-                token = KeywordToken.Void.Wrap(position.AddColumn(endIndex), sourceCode[..endIndex]);
-            else
-                token = new IdToken(sourceCode[..endIndex], position.AddColumn(endIndex)); // TODO:
+                token = KeywordToken.Void;
+
+            ITokenWithPosition result;
+
+            if (token != null)
+            {
+                result = token.Wrap(position.AddColumn(endIndex), sourceCode[..endIndex]);
+
+                sourceCode = sourceCode[endIndex..];
+
+                return result;
+            }
+
+            result = new IdToken(sourceCode[..endIndex], position.AddColumn(endIndex)); // TODO:
 
             sourceCode = sourceCode[endIndex..];
 
-            return token;
+            return result;
         }
 
         private ITokenWithPosition String(

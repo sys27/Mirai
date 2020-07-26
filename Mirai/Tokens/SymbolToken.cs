@@ -33,5 +33,11 @@ namespace Mirai.Tokens
         public static SymbolToken Comma { get; } = new SymbolToken(',');
 
         public static SymbolToken SemiColon { get; } = new SymbolToken(';');
+
+        public static SymbolToken Plus { get; } = new SymbolToken('+');
+
+        public static SymbolToken Minus { get; } = new SymbolToken('-');
+
+        public static SymbolToken Assign { get; } = new SymbolToken('=');
     }
 }
