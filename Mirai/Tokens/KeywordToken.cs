@@ -13,6 +13,9 @@ namespace Mirai.Tokens
             this.keyword = keyword;
         }
 
+        public override string ToString() => keyword.ToString();
+
+        // TODO: generate
         public static KeywordToken Case { get; } = new KeywordToken(Keywords.Case);
 
         public static KeywordToken Class { get; } = new KeywordToken(Keywords.Class);

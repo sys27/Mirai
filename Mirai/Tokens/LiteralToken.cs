@@ -3,20 +3,19 @@ using System.Diagnostics;
 
 namespace Mirai.Tokens
 {
-    [DebuggerDisplay("Value: {" + nameof(Value) + "}")]
-    public class ValueToken<T> : ITokenWithPosition
+    [DebuggerDisplay("Value: {" + nameof(SourceCode) + "}")]
+    public abstract class LiteralToken : ITokenWithPosition
     {
-        public ValueToken(
-            T value,
+        protected LiteralToken(
             SourcePosition sourcePosition,
             ReadOnlyMemory<char> sourceCode)
         {
-            Value = value ?? throw new ArgumentNullException(nameof(value));
             SourcePosition = sourcePosition;
             SourceCode = sourceCode;
         }
 
-        public T Value { get; }
+        public override string ToString() => SourceCode.ToString();
+
         public SourcePosition SourcePosition { get; }
         public ReadOnlyMemory<char> SourceCode { get; }
     }

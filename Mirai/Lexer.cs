@@ -20,8 +20,8 @@ namespace Mirai
 
             while (sourceCode.Length > 0)
             {
-                var result = Whitespace(ref sourceCode, position) ??
-                             NewLine(ref sourceCode, position) ??
+                var result = NewLine(ref sourceCode, position) ??
+                             Whitespace(ref sourceCode, position) ??
                              Symbol(ref sourceCode, position) ??
                              Id(ref sourceCode, position) ??
                              String(ref sourceCode, position);
@@ -93,6 +93,8 @@ namespace Mirai
                 ']' => SymbolToken.CloseSquare,
                 '+' => SymbolToken.Plus,
                 '-' => SymbolToken.Minus,
+                '*' => SymbolToken.Mul,
+                '/' => SymbolToken.Div,
                 '=' => SymbolToken.Assign,
                 _ => null,
             };
@@ -191,10 +193,9 @@ namespace Mirai
 
             endIndex++;
 
-            var value = sourceCode[1..(endIndex - 1)];
             // TODO: string?
             // TODO: handle position
-            var token = new ValueToken<ReadOnlyMemory<char>>(value, position, sourceCode[..endIndex]);
+            var token = new StringLiteralToken(position, sourceCode[..endIndex]);
 
             sourceCode = sourceCode[endIndex..];
 

@@ -12,6 +12,8 @@ namespace Mirai.Tokens
             SourcePosition = sourcePosition;
         }
 
+        public override string ToString() => Id.ToString();
+
         public ReadOnlyMemory<char> Id { get; }
         public SourcePosition SourcePosition { get; }
         public ReadOnlyMemory<char> SourceCode => Id;

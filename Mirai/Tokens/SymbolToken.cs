@@ -12,6 +12,8 @@ namespace Mirai.Tokens
             this.symbol = symbol;
         }
 
+        public override string ToString() => symbol.ToString();
+
         public static SymbolToken Whitespace { get; } = new SymbolToken(' ');
 
         public static SymbolToken NewLine { get; } = new SymbolToken('\n');
@@ -37,6 +39,10 @@ namespace Mirai.Tokens
         public static SymbolToken Plus { get; } = new SymbolToken('+');
 
         public static SymbolToken Minus { get; } = new SymbolToken('-');
+
+        public static SymbolToken Mul { get; } = new SymbolToken('*');
+
+        public static SymbolToken Div { get; } = new SymbolToken('/');
 
         public static SymbolToken Assign { get; } = new SymbolToken('=');
     }
