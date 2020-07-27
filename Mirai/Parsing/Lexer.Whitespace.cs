@@ -55,7 +55,7 @@ namespace Mirai.Parsing
                symbol == '\x0020' ||
                symbol == '\x00A0' ||
                symbol == '\x1680' ||
-               (uint) (symbol - '\x2000') <= ('\x200A' - '\x2000') ||
+               IsInRange(symbol, '\x2000', '\x200A') ||
                symbol == '\x202F' ||
                symbol == '\x205F' ||
                symbol == '\x3000';

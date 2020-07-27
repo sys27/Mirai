@@ -26,7 +26,9 @@ namespace Mirai.Parsing
                              CreateComment(ref sourceCode, position) ??
                              CreateSymbol(ref sourceCode, position) ??
                              CreateId(ref sourceCode, position) ??
-                             CreateString(ref sourceCode, position);
+                             CreateNumber(ref sourceCode, position) ??
+                             CreateString(ref sourceCode, position) ??
+                             CreateCharacter(ref sourceCode, position);
 
                 if (result == null)
                     throw new Exception(); // TODO:
@@ -40,5 +42,9 @@ namespace Mirai.Parsing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool Compare(ReadOnlySpan<char> span, string str) =>
             span.Equals(str, StringComparison.Ordinal);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsInRange(char symbol, char min, char max)
+            => (uint)(symbol - min) <= (uint)(max - min);
     }
 }
