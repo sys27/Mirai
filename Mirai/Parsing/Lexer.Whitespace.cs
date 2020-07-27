@@ -6,7 +6,7 @@ namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private ITokenWithPosition? Whitespace(
+        private IToken? CreateWhitespace(
             ref ReadOnlyMemory<char> sourceCode,
             SourcePosition position)
         {
@@ -19,7 +19,7 @@ namespace Mirai.Parsing
             if (index <= 0)
                 return null;
 
-            var token = SymbolToken.Whitespace.Wrap(position.AddColumn(index), sourceCode[..index]);
+            var token = Symbol.Whitespace.AsToken(position.AddColumn(index), sourceCode[..index]);
 
             sourceCode = sourceCode[index..];
 
@@ -54,7 +54,7 @@ namespace Mirai.Parsing
                symbol == '\x0020' ||
                symbol == '\x00A0' ||
                symbol == '\x1680' ||
-               (uint)(symbol - '\x2000') <= ('\x200A' - '\x2000') ||
+               (uint) (symbol - '\x2000') <= ('\x200A' - '\x2000') ||
                symbol == '\x202F' ||
                symbol == '\x205F' ||
                symbol == '\x3000';

@@ -5,7 +5,7 @@ namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private ITokenWithPosition? Id(
+        private IToken? CreateId(
             ref ReadOnlyMemory<char> sourceCode,
             SourcePosition position)
         {
@@ -21,46 +21,46 @@ namespace Mirai.Parsing
 
             var id = span[..endIndex];
 
-            IToken token = null;
+            Keyword keyword = null;
 
             if (Compare(id, "case"))
-                token = KeywordToken.Case;
+                keyword = Keyword.Case;
             else if (Compare(id, "class"))
-                token = KeywordToken.Class;
+                keyword = Keyword.Class;
             else if (Compare(id, "else"))
-                token = KeywordToken.Else;
+                keyword = Keyword.Else;
             else if (Compare(id, "enum"))
-                token = KeywordToken.Enum;
+                keyword = Keyword.Enum;
             else if (Compare(id, "if"))
-                token = KeywordToken.If;
+                keyword = Keyword.If;
             else if (Compare(id, "internal"))
-                token = KeywordToken.Internal;
+                keyword = Keyword.Internal;
             else if (Compare(id, "namespace"))
-                token = KeywordToken.Namespace;
+                keyword = Keyword.Namespace;
             else if (Compare(id, "private"))
-                token = KeywordToken.Private;
+                keyword = Keyword.Private;
             else if (Compare(id, "protected"))
-                token = KeywordToken.Protected;
+                keyword = Keyword.Protected;
             else if (Compare(id, "public"))
-                token = KeywordToken.Public;
+                keyword = Keyword.Public;
             else if (Compare(id, "static"))
-                token = KeywordToken.Static;
+                keyword = Keyword.Static;
             else if (Compare(id, "struct"))
-                token = KeywordToken.Struct;
+                keyword = Keyword.Struct;
             else if (Compare(id, "switch"))
-                token = KeywordToken.Switch;
+                keyword = Keyword.Switch;
             else if (Compare(id, "using"))
-                token = KeywordToken.Using;
+                keyword = Keyword.Using;
             else if (Compare(id, "var"))
-                token = KeywordToken.Var;
+                keyword = Keyword.Var;
             else if (Compare(id, "void"))
-                token = KeywordToken.Void;
+                keyword = Keyword.Void;
 
-            ITokenWithPosition result;
+            IToken result;
 
-            if (token != null)
+            if (keyword != null)
             {
-                result = token.Wrap(position.AddColumn(endIndex), sourceCode[..endIndex]);
+                result = keyword.AsToken(position.AddColumn(endIndex), sourceCode[..endIndex]);
 
                 sourceCode = sourceCode[endIndex..];
 

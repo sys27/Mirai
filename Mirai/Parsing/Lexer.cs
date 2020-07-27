@@ -21,11 +21,11 @@ namespace Mirai.Parsing
 
             while (sourceCode.Length > 0)
             {
-                var result = Whitespace(ref sourceCode, position) ??
-                             NewLine(ref sourceCode, position) ??
-                             Symbol(ref sourceCode, position) ??
-                             Id(ref sourceCode, position) ??
-                             String(ref sourceCode, position);
+                var result = CreateWhitespace(ref sourceCode, position) ??
+                             CreateNewLine(ref sourceCode, position) ??
+                             CreateSymbol(ref sourceCode, position) ??
+                             CreateId(ref sourceCode, position) ??
+                             CreateString(ref sourceCode, position);
 
                 if (result == null)
                     throw new Exception(); // TODO:

@@ -2,9 +2,9 @@ using System;
 
 namespace Mirai.Parsing.Tokens
 {
-    public class StringLiteralToken : LiteralToken
+    public class StringToken : Token
     {
-        public StringLiteralToken(
+        public StringToken(
             SourcePosition sourcePosition,
             ReadOnlyMemory<char> sourceCode)
             : base(sourcePosition, sourceCode)

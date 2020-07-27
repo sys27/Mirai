@@ -5,7 +5,7 @@ namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private ITokenWithPosition? String(
+        private IToken? CreateString(
             ref ReadOnlyMemory<char> sourceCode,
             SourcePosition position)
         {
@@ -22,7 +22,7 @@ namespace Mirai.Parsing
 
             // TODO: string?
             // TODO: handle position
-            var token = new StringLiteralToken(position, sourceCode[..endIndex]);
+            var token = new StringToken(position, sourceCode[..endIndex]);
 
             sourceCode = sourceCode[endIndex..];
 

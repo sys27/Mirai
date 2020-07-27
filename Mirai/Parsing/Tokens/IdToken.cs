@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace Mirai.Parsing.Tokens
 {
     [DebuggerDisplay("Id: {" + nameof(Id) + "}")]
-    public class IdToken : ITokenWithPosition
+    public class IdToken : IToken
     {
         public IdToken(ReadOnlyMemory<char> id, SourcePosition sourcePosition)
         {
