@@ -22,7 +22,7 @@ namespace Mirai.Parsing
 
             // TODO: string?
             // TODO: handle position
-            var token = new StringToken(position, sourceCode[..endIndex]);
+            var token = LiteralType.String.AsToken(position, sourceCode[..endIndex]);
 
             sourceCode = sourceCode[endIndex..];
 

@@ -23,6 +23,7 @@ namespace Mirai.Parsing
             {
                 var result = CreateWhitespace(ref sourceCode, position) ??
                              CreateNewLine(ref sourceCode, position) ??
+                             CreateComment(ref sourceCode, position) ??
                              CreateSymbol(ref sourceCode, position) ??
                              CreateId(ref sourceCode, position) ??
                              CreateString(ref sourceCode, position);

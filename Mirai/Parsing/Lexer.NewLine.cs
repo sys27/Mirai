@@ -11,13 +11,13 @@ namespace Mirai.Parsing
             SourcePosition position)
         {
             var span = sourceCode.Span;
-
-            if (!IsNewLine(span))
+            var (found, length) = IsNewLine(span);
+            if (!found)
                 return null;
 
-            var token = NewLine.AsToken(position.AddLine(1), sourceCode[..1]);
+            var token = NewLine.AsToken(position.AddLine(1), sourceCode[..length]);
 
-            sourceCode = sourceCode[1..];
+            sourceCode = sourceCode[length..];
 
             return token;
         }
@@ -28,14 +28,19 @@ namespace Mirai.Parsing
         // \x0085 - next line
         // \x2028 - line separator
         // \x2029 - paragraph separator
-        private static bool IsNewLine(ReadOnlySpan<char> span)
+        private static (bool found, int length) IsNewLine(ReadOnlySpan<char> span)
         {
-            return span[0] == '\x000A' ||
-                   span[0] == '\x000D' ||
-                   (span.Length > 1 && span[0] == '\x000D' && span[1] == '\x000A') ||
-                   span[0] == '\x0085' ||
-                   span[0] == '\x2028' ||
-                   span[0] == '\x2029';
+            if (span[0] == '\x000A' ||
+                span[0] == '\x000D' ||
+                span[0] == '\x0085' ||
+                span[0] == '\x2028' ||
+                span[0] == '\x2029')
+                return (true, 1);
+
+            if (span.Length > 1 && span[0] == '\x000D' && span[1] == '\x000A')
+                return (true, 2);
+
+            return (false, 0);
         }
     }
 }

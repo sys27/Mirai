@@ -1,5 +1,6 @@
 using System;
 using Mirai.Parsing.Tokens;
+using static Mirai.Parsing.Tokens.CommentType;
 
 namespace Mirai.Parsing
 {
@@ -9,7 +10,74 @@ namespace Mirai.Parsing
             ref ReadOnlyMemory<char> sourceCode,
             SourcePosition position)
         {
-            throw new NotImplementedException();
+            var span = sourceCode.Span;
+
+            if (span.StartsWith(XmlDocSpan))
+            {
+                var index = XmlDocSpan.Length;
+                while (index < span.Length)
+                {
+                    var (found, length) = IsNewLine(span);
+                    if (found && span[index..].StartsWith(XmlDocSpan))
+                        break;
+
+                    index += length;
+                }
+
+                var token = XmlDoc.AsToken(position.AddColumn(index), sourceCode[..index]);
+
+                sourceCode = sourceCode[index..];
+
+                return token;
+            }
+
+            if (span.StartsWith(SingleLineSpan))
+            {
+                var index = SingleLineSpan.Length;
+                while (index < span.Length)
+                {
+                    var (found, length) = IsNewLine(span);
+                    if (found)
+                        break;
+
+                    index += length;
+                }
+
+                var token = SingleLine.AsToken(position.AddColumn(index), sourceCode[..index]);
+
+                sourceCode = sourceCode[index..];
+
+                return token;
+            }
+
+            if (span.StartsWith(MultiLineOpenSpan))
+            {
+                var index = MultiLineOpenSpan.Length;
+                while (index < span.Length)
+                {
+                    if (span[index..].StartsWith(MultiLineCloseSpan))
+                    {
+                        index += MultiLineCloseSpan.Length;
+                        break;
+                    }
+
+                    index++;
+                }
+
+                var token = MultiLine.AsToken(position.AddColumn(index), sourceCode[..index]);
+
+                sourceCode = sourceCode[index..];
+
+                return token;
+            }
+
+            return null;
         }
+
+        // TODO: single property span?
+        private ReadOnlySpan<char> SingleLineSpan => new[] { '/', '/' };
+        private ReadOnlySpan<char> MultiLineOpenSpan => new[] { '/', '*' };
+        private ReadOnlySpan<char> MultiLineCloseSpan => new[] { '*', '/' };
+        private ReadOnlySpan<char> XmlDocSpan => new[] { '/', '/', '/' };
     }
 }
