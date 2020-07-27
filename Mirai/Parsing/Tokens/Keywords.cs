@@ -1,3 +1,5 @@
+using System;
+
 namespace Mirai.Parsing.Tokens
 {
     public enum Keywords
@@ -18,5 +20,14 @@ namespace Mirai.Parsing.Tokens
         Using,
         Var,
         Void
+    }
+
+    public static class KeywordsExtensions
+    {
+        public static KeywordToken AsToken(
+            this Keywords keyword,
+            SourcePosition sourcePosition,
+            ReadOnlyMemory<char> sourceCode)
+            => new KeywordToken(keyword, sourcePosition, sourceCode);
     }
 }

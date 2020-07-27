@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Mirai.Parsing.Tokens;
+using static Mirai.Parsing.Tokens.Symbols;
 
 namespace Mirai.Parsing
 {
@@ -19,7 +20,7 @@ namespace Mirai.Parsing
             if (index <= 0)
                 return null;
 
-            var token = Symbol.Whitespace.AsToken(position.AddColumn(index), sourceCode[..index]);
+            var token = Whitespace.AsToken(position.AddColumn(index), sourceCode[..index]);
 
             sourceCode = sourceCode[index..];
 

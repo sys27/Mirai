@@ -1,5 +1,6 @@
 using System;
 using Mirai.Parsing.Tokens;
+using static Mirai.Parsing.Tokens.Symbols;
 
 namespace Mirai.Parsing
 {
@@ -14,7 +15,7 @@ namespace Mirai.Parsing
             if (!IsNewLine(span))
                 return null;
 
-            var token = Symbol.NewLine.AsToken(position.AddLine(1), sourceCode[..1]);
+            var token = NewLine.AsToken(position.AddLine(1), sourceCode[..1]);
 
             sourceCode = sourceCode[1..];
 

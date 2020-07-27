@@ -3,20 +3,20 @@ using System.Diagnostics;
 
 namespace Mirai.Parsing.Tokens
 {
-    [DebuggerDisplay("Keyword: {" + nameof(keyword) + "}")]
+    [DebuggerDisplay("Keyword: {" + nameof(Keyword) + "}")]
     public class KeywordToken : Token
     {
-        private readonly Keyword keyword;
-
         public KeywordToken(
-            Keyword keyword,
+            Keywords keyword,
             SourcePosition sourcePosition,
             ReadOnlyMemory<char> sourceCode)
             : base(sourcePosition, sourceCode)
         {
-            this.keyword = keyword;
+            Keyword = keyword;
         }
 
-        public override string ToString() => keyword.ToString();
+        public override string ToString() => Keyword.ToString();
+
+        public Keywords Keyword { get; }
     }
 }

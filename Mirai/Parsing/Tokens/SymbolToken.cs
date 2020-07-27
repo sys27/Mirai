@@ -3,18 +3,18 @@ using System.Diagnostics;
 
 namespace Mirai.Parsing.Tokens
 {
-    [DebuggerDisplay("Symbol: {" + nameof(symbol) + "}")]
+    [DebuggerDisplay("Symbol: {" + nameof(Symbol) + "}")]
     public class SymbolToken : Token
     {
-        private readonly Symbol symbol;
-
         public SymbolToken(
-            Symbol symbol,
+            Symbols symbol,
             SourcePosition sourcePosition,
             ReadOnlyMemory<char> sourceCode)
             : base(sourcePosition, sourceCode)
         {
-            this.symbol = symbol;
+            Symbol = symbol;
         }
+
+        public Symbols Symbol { get; }
     }
 }

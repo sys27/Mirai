@@ -1,5 +1,6 @@
 using System;
 using Mirai.Parsing.Tokens;
+using static Mirai.Parsing.Tokens.Symbols;
 
 namespace Mirai.Parsing
 {
@@ -9,30 +10,30 @@ namespace Mirai.Parsing
             ref ReadOnlyMemory<char> sourceCode,
             SourcePosition position)
         {
-            // TODO: generate?
-            var symbol = sourceCode.Span[0] switch
+            // TODO: generate? dictionary?
+            Symbols? symbol = sourceCode.Span[0] switch
             {
-                '(' => Symbol.OpenParenthesis,
-                ')' => Symbol.CloseParenthesis,
-                '{' => Symbol.OpenBrace,
-                '}' => Symbol.CloseBrace,
-                '.' => Symbol.Dot,
-                ',' => Symbol.Comma,
-                ';' => Symbol.SemiColon,
-                '[' => Symbol.OpenSquare,
-                ']' => Symbol.CloseSquare,
-                '+' => Symbol.Plus,
-                '-' => Symbol.Minus,
-                '*' => Symbol.Mul,
-                '/' => Symbol.Div,
-                '=' => Symbol.Assign,
+                '(' => OpenParenthesis,
+                ')' => CloseParenthesis,
+                '{' => OpenBrace,
+                '}' => CloseBrace,
+                '.' => Dot,
+                ',' => Comma,
+                ';' => SemiColon,
+                '[' => OpenSquare,
+                ']' => CloseSquare,
+                '+' => Plus,
+                '-' => Minus,
+                '*' => Mul,
+                '/' => Div,
+                '=' => Assign,
                 _ => null,
             };
 
             if (symbol == null)
                 return null;
 
-            var result = symbol.AsToken(position.AddColumn(1), sourceCode[..1]);
+            var result = symbol.Value.AsToken(position.AddColumn(1), sourceCode[..1]);
 
             sourceCode = sourceCode[1..];
 

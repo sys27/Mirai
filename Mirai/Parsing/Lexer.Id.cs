@@ -21,53 +21,43 @@ namespace Mirai.Parsing
 
             var id = span[..endIndex];
 
-            Keyword keyword = null;
+            Keywords? keyword = null;
 
             if (Compare(id, "case"))
-                keyword = Keyword.Case;
+                keyword = Keywords.Case;
             else if (Compare(id, "class"))
-                keyword = Keyword.Class;
+                keyword = Keywords.Class;
             else if (Compare(id, "else"))
-                keyword = Keyword.Else;
+                keyword = Keywords.Else;
             else if (Compare(id, "enum"))
-                keyword = Keyword.Enum;
+                keyword = Keywords.Enum;
             else if (Compare(id, "if"))
-                keyword = Keyword.If;
+                keyword = Keywords.If;
             else if (Compare(id, "internal"))
-                keyword = Keyword.Internal;
+                keyword = Keywords.Internal;
             else if (Compare(id, "namespace"))
-                keyword = Keyword.Namespace;
+                keyword = Keywords.Namespace;
             else if (Compare(id, "private"))
-                keyword = Keyword.Private;
+                keyword = Keywords.Private;
             else if (Compare(id, "protected"))
-                keyword = Keyword.Protected;
+                keyword = Keywords.Protected;
             else if (Compare(id, "public"))
-                keyword = Keyword.Public;
+                keyword = Keywords.Public;
             else if (Compare(id, "static"))
-                keyword = Keyword.Static;
+                keyword = Keywords.Static;
             else if (Compare(id, "struct"))
-                keyword = Keyword.Struct;
+                keyword = Keywords.Struct;
             else if (Compare(id, "switch"))
-                keyword = Keyword.Switch;
+                keyword = Keywords.Switch;
             else if (Compare(id, "using"))
-                keyword = Keyword.Using;
+                keyword = Keywords.Using;
             else if (Compare(id, "var"))
-                keyword = Keyword.Var;
+                keyword = Keywords.Var;
             else if (Compare(id, "void"))
-                keyword = Keyword.Void;
+                keyword = Keywords.Void;
 
-            IToken result;
-
-            if (keyword != null)
-            {
-                result = keyword.AsToken(position.AddColumn(endIndex), sourceCode[..endIndex]);
-
-                sourceCode = sourceCode[endIndex..];
-
-                return result;
-            }
-
-            result = new IdToken(sourceCode[..endIndex], position.AddColumn(endIndex)); // TODO:
+            var result = keyword?.AsToken(position.AddColumn(endIndex), sourceCode[..endIndex]) ??
+                         (IToken) new IdToken(sourceCode[..endIndex], position.AddColumn(endIndex));
 
             sourceCode = sourceCode[endIndex..];
 
