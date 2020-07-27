@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Mirai.Nodes
+namespace Mirai.Parsing.Nodes
 {
     public class CompilationUnit : IComposedNode
     {

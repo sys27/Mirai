@@ -1,4 +1,4 @@
-namespace Mirai.Tokens
+namespace Mirai.Parsing.Tokens
 {
     public enum Keywords
     {

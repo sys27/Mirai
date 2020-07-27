@@ -1,4 +1,4 @@
-namespace Mirai
+namespace Mirai.Parsing
 {
     public class Parser
     {

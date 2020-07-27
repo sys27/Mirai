@@ -1,6 +1,6 @@
 using System;
 
-namespace Mirai.Nodes
+namespace Mirai.Parsing.Nodes
 {
     public class Id : INode
     {

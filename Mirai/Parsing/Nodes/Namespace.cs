@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Mirai.Nodes
+namespace Mirai.Parsing.Nodes
 {
     public class Namespace : IComposedNode
     {

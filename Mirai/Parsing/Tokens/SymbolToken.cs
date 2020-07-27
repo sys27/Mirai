@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Mirai.Tokens
+namespace Mirai.Parsing.Tokens
 {
     [DebuggerDisplay("Symbol: {" + nameof(symbol) + "}")]
     public class SymbolToken : IToken

@@ -1,7 +1,6 @@
-using System;
 using System.Diagnostics;
 
-namespace Mirai.Tokens
+namespace Mirai.Parsing.Tokens
 {
     [DebuggerDisplay("Keyword: {" + nameof(keyword) + "}")]
     public class KeywordToken : IToken

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Mirai.Tokens;
+using Mirai.Parsing.Tokens;
 
-namespace Mirai
+namespace Mirai.Parsing
 {
     public class Lexer
     {

@@ -57,4 +57,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Emitting\FileFormats" />
+    <Folder Include="Tokens" />
+  </ItemGroup>
+
 </Project>

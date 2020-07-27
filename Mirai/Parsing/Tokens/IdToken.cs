@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Mirai.Tokens
+namespace Mirai.Parsing.Tokens
 {
     [DebuggerDisplay("Id: {" + nameof(Id) + "}")]
     public class IdToken : ITokenWithPosition

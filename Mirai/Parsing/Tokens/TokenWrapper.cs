@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Mirai.Tokens
+namespace Mirai.Parsing.Tokens
 {
     [DebuggerDisplay("Token: {" + nameof(Token) + "}, Count: {" + nameof(Length) + "}")]
     public class TokenWrapper<TToken> : ITokenWithPosition where TToken : IToken

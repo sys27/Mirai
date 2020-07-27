@@ -1,4 +1,4 @@
-namespace Mirai.Nodes
+namespace Mirai.Parsing.Nodes
 {
     public enum AccessModifier
     {

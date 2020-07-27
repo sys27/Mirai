@@ -1,6 +1,6 @@
 using System;
 
-namespace Mirai
+namespace Mirai.Parsing
 {
     public readonly struct SourcePosition
     {

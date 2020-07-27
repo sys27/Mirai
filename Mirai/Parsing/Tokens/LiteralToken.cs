@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Mirai.Tokens
+namespace Mirai.Parsing.Tokens
 {
     [DebuggerDisplay("Value: {" + nameof(SourceCode) + "}")]
     public abstract class LiteralToken : ITokenWithPosition

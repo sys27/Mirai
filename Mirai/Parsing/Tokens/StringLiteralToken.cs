@@ -1,6 +1,6 @@
 using System;
 
-namespace Mirai.Tokens
+namespace Mirai.Parsing.Tokens
 {
     public class StringLiteralToken : LiteralToken
     {

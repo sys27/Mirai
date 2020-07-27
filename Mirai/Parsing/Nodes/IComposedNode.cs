@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Mirai.Nodes
+namespace Mirai.Parsing.Nodes
 {
     public interface IComposedNode : INode, IEnumerable<INode>
     {
