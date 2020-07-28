@@ -28,7 +28,8 @@ namespace Mirai.Parsing
                              CreateId(ref sourceCode, position) ??
                              CreateNumber(ref sourceCode, position) ??
                              CreateString(ref sourceCode, position) ??
-                             CreateCharacter(ref sourceCode, position);
+                             CreateCharacter(ref sourceCode, position) ??
+                             CreatePreprocessorDirective(ref sourceCode, position);
 
                 if (result == null)
                     throw new Exception(); // TODO:
@@ -45,6 +46,6 @@ namespace Mirai.Parsing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsInRange(char symbol, char min, char max)
-            => (uint)(symbol - min) <= (uint)(max - min);
+            => (uint) (symbol - min) <= (uint) (max - min);
     }
 }
