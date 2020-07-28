@@ -52,6 +52,10 @@ namespace Mirai.Parsing
             if (qualifiedId == null)
                 throw new Exception(); // TODO:
 
+            var semiColon = tokenEnumerator.Symbol(Symbols.SemiColon);
+            if (semiColon == null)
+                throw new Exception(); // TODO:
+
             throw new NotImplementedException();
         }
 

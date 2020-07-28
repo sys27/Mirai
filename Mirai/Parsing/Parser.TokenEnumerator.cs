@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Mirai.Parsing.Tokens;
 
 namespace Mirai.Parsing
@@ -6,34 +7,23 @@ namespace Mirai.Parsing
     {
         private class TokenEnumerator
         {
-            private readonly IToken[] list;
-            private int index;
+            private readonly IEnumerator<IToken> enumerator;
+            // TODO: add array buffer?
 
-            public TokenEnumerator(IToken[] list)
+            public TokenEnumerator(IEnumerable<IToken> tokens)
             {
-                this.list = list;
+                enumerator = tokens.GetEnumerator(); // TODO: change collection?
+                enumerator.MoveNext();
             }
 
             private bool MoveNext()
             {
-                if (index >= list.Length)
-                {
-                    index = list.Length;
-
-                    return false;
-                }
-
-                ++index;
-
-                return true;
+                return IsEnd = enumerator.MoveNext();
             }
 
             private TToken? Peek<TToken>() where TToken : class, IToken
             {
-                if (index >= list.Length)
-                    return null;
-
-                return list[index] as TToken;
+                return enumerator.Current as TToken;
             }
 
             public TToken? GetCurrent<TToken>() where TToken : class, IToken
@@ -71,26 +61,26 @@ namespace Mirai.Parsing
                 return null;
             }
 
-            public Scope CreateScope() => new Scope(this);
+            public bool IsEnd { get; private set; }
 
-            public void Rollback(Scope scope) => scope.Rollback(this);
+            // public Scope CreateScope() => new Scope(this);
 
-            public bool IsEnd => index >= list.Length;
+            // public void Rollback(Scope scope) => scope.Rollback(this);
 
-            public readonly struct Scope
-            {
-                private readonly int position;
+            // public readonly struct Scope
+            // {
+            //     private readonly int position;
 
-                public Scope(TokenEnumerator tokenEnumerator)
-                {
-                    position = tokenEnumerator.index;
-                }
+            //     public Scope(TokenEnumerator tokenEnumerator)
+            //     {
+            //         position = tokenEnumerator.index;
+            //     }
 
-                public void Rollback(TokenEnumerator tokenEnumerator)
-                {
-                    tokenEnumerator.index = position;
-                }
-            }
+            //     public void Rollback(TokenEnumerator tokenEnumerator)
+            //     {
+            //         tokenEnumerator.index = position;
+            //     }
+            // }
         }
     }
 }
