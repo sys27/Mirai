@@ -4,7 +4,7 @@ namespace Mirai.Parsing
 {
     public readonly struct SourcePosition
     {
-        public SourcePosition(int line, int column)
+        private SourcePosition(int line, int column)
         {
             if (line <= 0)
                 throw new ArgumentOutOfRangeException(nameof(line));

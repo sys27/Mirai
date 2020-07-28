@@ -1,8 +1,8 @@
 using System;
 
-namespace Mirai.Parsing.Nodes
+namespace Mirai.Parsing.SyntaxNodes
 {
-    public class Id : INode
+    public class Id : ISyntaxNode
     {
         public Id(ReadOnlyMemory<char> name)
         {

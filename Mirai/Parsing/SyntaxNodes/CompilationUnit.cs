@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Mirai.Parsing.Nodes
+namespace Mirai.Parsing.SyntaxNodes
 {
-    public class CompilationUnit : IComposedNode
+    public class CompilationUnit : IComposedSyntaxNode
     {
-        public IEnumerator<INode> GetEnumerator()
+        public IEnumerator<ISyntaxNode> GetEnumerator()
         {
             throw new System.NotImplementedException();
         }

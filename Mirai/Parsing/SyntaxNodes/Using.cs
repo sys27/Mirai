@@ -1,6 +1,6 @@
-namespace Mirai.Parsing.Nodes
+namespace Mirai.Parsing.SyntaxNodes
 {
-    public class Using : INode
+    public class Using : ISyntaxNode
     {
         public Using(QualifiedId @namespace)
             : this(false, null, @namespace)

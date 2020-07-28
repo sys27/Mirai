@@ -1,4 +1,4 @@
-namespace Mirai.Parsing.Nodes
+namespace Mirai.Parsing.SyntaxNodes
 {
     public class Constructor
     {

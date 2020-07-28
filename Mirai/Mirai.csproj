@@ -7,7 +7,7 @@
     <CodeAnalysisRuleSet>..\Rules.ruleset</CodeAnalysisRuleSet>
     <RootNamespace>Mirai</RootNamespace>
     <PackageId>Mirai</PackageId>
-    <Version>1.0.0</Version>
+    <Version>0.1.0</Version>
     <Product>Mirai</Product>
     <Authors>Dmytro Kyshchenko</Authors>
     <Company />
@@ -17,8 +17,8 @@
     <!--<PackageIcon></PackageIcon>-->
     <!--<PackageTags></PackageTags>-->
     <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <FileVersion>0.1.0</FileVersion>
     <RepositoryUrl>https://github.com/sys27/Mirai</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -59,7 +59,6 @@
 
   <ItemGroup>
     <Folder Include="Emitting\FileFormats" />
-    <Folder Include="Tokens" />
   </ItemGroup>
 
 </Project>

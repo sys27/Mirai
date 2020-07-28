@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Mirai.Parsing.Nodes
+namespace Mirai.Parsing.SyntaxNodes
 {
-    public class QualifiedId : IComposedNode
+    public class QualifiedId : IComposedSyntaxNode
     {
         public QualifiedId(ImmutableArray<Id> parts)
         {
@@ -17,7 +17,7 @@ namespace Mirai.Parsing.Nodes
             Parts = parts;
         }
 
-        public IEnumerator<INode> GetEnumerator()
+        public IEnumerator<ISyntaxNode> GetEnumerator()
         {
             foreach (var id in Parts)
                 yield return id;

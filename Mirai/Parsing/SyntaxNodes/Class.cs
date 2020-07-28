@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Mirai.Parsing.Nodes
+namespace Mirai.Parsing.SyntaxNodes
 {
-    public class Class : IComposedNode
+    public class Class : IComposedSyntaxNode
     {
-        public IEnumerator<INode> GetEnumerator()
+        public IEnumerator<ISyntaxNode> GetEnumerator()
         {
             yield return Name;
 
