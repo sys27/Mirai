@@ -17,10 +17,10 @@ namespace Mirai.Benchmark
                 .FromAssembly(typeof(Program).Assembly)
                 .Run(args,
                     ManualConfig.Create(DefaultConfig.Instance)
-                        .AddJob(Job.MediumRun
+                        .With(Job.MediumRun
                             .WithLaunchCount(1)
-                            .WithToolchain(CsProjCoreToolchain.NetCoreApp31))
-                        .AddDiagnoser(MemoryDiagnoser.Default)
+                            .With(CsProjCoreToolchain.NetCoreApp31))
+                        .With(MemoryDiagnoser.Default)
                         .StopOnFirstError());
         }
     }

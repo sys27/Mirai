@@ -57,7 +57,13 @@ namespace Mirai.Parsing
             if (semiColon == null)
                 throw new Exception(); // TODO:
 
-            throw new NotImplementedException();
+            var builder = UsingNode.Builder.Default
+                .AddUsing(usingKeyword)
+                .AddSeparators(separators)
+                .AddNamespace(qualifiedId)
+                .AddSemiColon(semiColon);
+
+            return builder.Build();
         }
 
         private NamespaceNode? Namespace(TokenEnumerator tokenEnumerator)
@@ -74,12 +80,24 @@ namespace Mirai.Parsing
             if (qualifiedId == null)
                 throw new Exception(); // TODO:
 
-            var builder = new NamespaceNode.Builder()
+            var builder = NamespaceNode.Builder.Default
                 .AddNamespaceKeyword(keyword)
                 .AddSeparators(separators)
                 .AddNamespace(qualifiedId);
 
+            // TODO: body
+
             return builder.Build();
+        }
+
+        private ISyntaxNode TypeDeclarations(TokenEnumerator tokenEnumerator)
+        {
+            throw new NotImplementedException();
+        }
+
+        private ISyntaxNode TypeDeclaration(TokenEnumerator tokenEnumerator)
+        {
+            throw new NotImplementedException();
         }
 
         private ClassNode? Class(TokenEnumerator tokenEnumerator)
@@ -93,7 +111,8 @@ namespace Mirai.Parsing
             if (id == null)
                 return null;
 
-            var tokens = new ImmutableArray<INode> { id };
+            var builder = QualifiedIdNode.Builder.Default
+                .AddId(id);
 
             SymbolToken? dot;
             while ((dot = tokenEnumerator.Symbol(Symbols.Dot)) != null)
@@ -102,18 +121,14 @@ namespace Mirai.Parsing
                 if (id == null)
                     throw new Exception(); // TODO:
 
-                tokens = tokens
-                    .Add(dot)
-                    .Add(id);
+                builder.AddDot(dot).AddId(id);
             }
 
             var semiColon = tokenEnumerator.Symbol(Symbols.SemiColon);
             if (semiColon == null)
                 throw new Exception(); // TODO:
 
-            tokens = tokens.Add(semiColon);
-
-            return new QualifiedIdNode(tokens);
+            return builder.Build();
         }
 
         private IdNode? Id(TokenEnumerator tokenEnumerator)

@@ -5,7 +5,10 @@ namespace Mirai.Parsing.SyntaxNodes
 {
     public class NamespaceNode : SyntaxNode
     {
-        private NamespaceNode(ImmutableArray<INode> children, QualifiedIdNode @namespace)
+        private NamespaceNode(
+            ImmutableArray<INode> children,
+            QualifiedIdNode @namespace,
+            ImmutableArray<ISyntaxNode> body)
             : base(children)
         {
             this.Namespace = @namespace;
@@ -17,12 +20,21 @@ namespace Mirai.Parsing.SyntaxNodes
         {
             private ImmutableArray<INode> children;
 
-            private KeywordToken keyword;
+            private KeywordToken? keyword;
             private ImmutableArray<IToken> separators;
-            private QualifiedIdNode @namespace;
+            private QualifiedIdNode? @namespace;
+            private ImmutableArray<ISyntaxNode> body;
+
+            private Builder(ImmutableArray<INode> children)
+            {
+                this.children = children;
+                this.keyword = null;
+                this.@namespace = null;
+                this.body = ImmutableArray<ISyntaxNode>.Empty;
+            }
 
             public NamespaceNode Build()
-                => new NamespaceNode(children, @namespace);
+                => new NamespaceNode(children, @namespace, body);
 
             public Builder AddNamespaceKeyword(KeywordToken keyword)
             {
@@ -47,6 +59,16 @@ namespace Mirai.Parsing.SyntaxNodes
 
                 return this;
             }
+
+            public Builder AddBodyItem(ISyntaxNode item)
+            {
+                body.Add(item);
+                children = children.Add(item);
+
+                return this;
+            }
+
+            public static Builder Default = new Builder(ImmutableArray<INode>.Empty);
         }
     }
 }
