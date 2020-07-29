@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Mirai.Parsing.SyntaxNodes;
 using Mirai.Parsing.Tokens;
@@ -26,26 +27,26 @@ namespace Mirai.Parsing
             return exp;
         }
 
-        private CompilationUnit? CompilationUnit(TokenEnumerator tokenEnumerator)
+        private CompilationUnitNode? CompilationUnit(TokenEnumerator tokenEnumerator)
         {
             var usings = Usings(tokenEnumerator);
 
             throw new NotImplementedException();
         }
 
-        private IEnumerable<Using>? Usings(TokenEnumerator tokenEnumerator)
+        private IEnumerable<UsingNode>? Usings(TokenEnumerator tokenEnumerator)
         {
             throw new NotImplementedException();
         }
 
-        private Using? Using(TokenEnumerator tokenEnumerator)
+        private UsingNode? Using(TokenEnumerator tokenEnumerator)
         {
             var usingKeyword = tokenEnumerator.Keyword(Keywords.Using);
             if (usingKeyword == null)
                 return null;
 
-            var whitespace = tokenEnumerator.Symbol(Symbols.Whitespace);
-            if (whitespace == null)
+            var separators = Separators(tokenEnumerator);
+            if (separators.IsEmpty)
                 throw new Exception(); // TODO:
 
             var qualifiedId = QualifiedId(tokenEnumerator);
@@ -59,24 +60,84 @@ namespace Mirai.Parsing
             throw new NotImplementedException();
         }
 
-        private Namespace? Namespace(TokenEnumerator tokenEnumerator)
+        private NamespaceNode? Namespace(TokenEnumerator tokenEnumerator)
+        {
+            var keyword = tokenEnumerator.Keyword(Keywords.Namespace);
+            if (keyword == null)
+                return null;
+
+            var separators = Separators(tokenEnumerator);
+            if (separators.IsEmpty)
+                throw new Exception(); // TODO:
+
+            var qualifiedId = QualifiedId(tokenEnumerator);
+            if (qualifiedId == null)
+                throw new Exception(); // TODO:
+
+            var builder = new NamespaceNode.Builder()
+                .AddNamespaceKeyword(keyword)
+                .AddSeparators(separators)
+                .AddNamespace(qualifiedId);
+
+            return builder.Build();
+        }
+
+        private ClassNode? Class(TokenEnumerator tokenEnumerator)
         {
             throw new NotImplementedException();
         }
 
-        private Class? Class(TokenEnumerator tokenEnumerator)
+        private QualifiedIdNode? QualifiedId(TokenEnumerator tokenEnumerator)
         {
-            throw new NotImplementedException();
+            var id = Id(tokenEnumerator);
+            if (id == null)
+                return null;
+
+            var tokens = new ImmutableArray<INode> { id };
+
+            SymbolToken? dot;
+            while ((dot = tokenEnumerator.Symbol(Symbols.Dot)) != null)
+            {
+                id = Id(tokenEnumerator);
+                if (id == null)
+                    throw new Exception(); // TODO:
+
+                tokens = tokens
+                    .Add(dot)
+                    .Add(id);
+            }
+
+            var semiColon = tokenEnumerator.Symbol(Symbols.SemiColon);
+            if (semiColon == null)
+                throw new Exception(); // TODO:
+
+            tokens = tokens.Add(semiColon);
+
+            return new QualifiedIdNode(tokens);
         }
 
-        private QualifiedId QualifiedId(TokenEnumerator tokenEnumerator)
+        private IdNode? Id(TokenEnumerator tokenEnumerator)
         {
-            throw new NotImplementedException();
+            var idToken = tokenEnumerator.GetCurrent<IdToken>();
+            if (idToken == null)
+                return null;
+
+            return new IdNode(idToken);
         }
 
-        private Id Id(TokenEnumerator tokenEnumerator)
+        private ImmutableArray<IToken> Separators(TokenEnumerator tokenEnumerator)
         {
-            throw new NotImplementedException();
+            var separators = ImmutableArray<IToken>.Empty;
+
+            IToken? separator;
+            while ((separator = Separator(tokenEnumerator)) != null)
+                separators = separators.Add(separator);
+
+            return separators;
         }
+
+        private IToken? Separator(TokenEnumerator tokenEnumerator)
+            => tokenEnumerator.Symbol(Symbols.Whitespace) ??
+               tokenEnumerator.Symbol(Symbols.NewLine);
     }
 }

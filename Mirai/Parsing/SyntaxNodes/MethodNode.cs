@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Mirai.Parsing.SyntaxNodes
 {
-    public class Method : IComposedSyntaxNode
+    public class MethodNode : SyntaxNode
     {
-        public IEnumerator<ISyntaxNode> GetEnumerator()
+        public MethodNode(ImmutableArray<INode> children) : base(children)
         {
-            yield return Name;
         }
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public AccessModifier AccessModifier { get; }
 
@@ -24,6 +22,6 @@ namespace Mirai.Parsing.SyntaxNodes
 
         public bool IsStatic { get; }
 
-        public Id Name { get; }
+        public IdNode Name { get; }
     }
 }
