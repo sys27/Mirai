@@ -25,33 +25,25 @@ namespace Mirai.Parsing.SyntaxNodes
 
         public struct Builder
         {
-            private ImmutableArray<INode> children;
+            private ImmutableArray<INode>.Builder children;
 
             private bool isStatic;
             private IdNode? alias;
             private QualifiedIdNode? @namespace;
 
-            private Builder(ImmutableArray<INode> children)
-            {
-                this.children = children;
-                this.isStatic = false;
-                this.alias = null;
-                this.@namespace = null;
-            }
-
             public UsingNode Build()
-                => new UsingNode(children, isStatic, alias, @namespace);
+                => new UsingNode(children.ToImmutableArray(), isStatic, alias, @namespace);
 
             public Builder AddUsing(KeywordToken keyword)
             {
-                children = children.Add(keyword);
+                children.Add(keyword);
 
                 return this;
             }
 
             public Builder AddSeparators(ImmutableArray<IToken> separators)
             {
-                children = children.AddRange(separators);
+                children.AddRange(separators);
 
                 return this;
             }
@@ -59,19 +51,23 @@ namespace Mirai.Parsing.SyntaxNodes
             public Builder AddNamespace(QualifiedIdNode @namespace)
             {
                 this.@namespace = @namespace;
-                children = children.Add(@namespace);
+                children.Add(@namespace);
 
                 return this;
             }
 
             public Builder AddSemiColon(SymbolToken semiColon)
             {
-                children = children.Add(semiColon);
+                children.Add(semiColon);
 
                 return this;
             }
 
-            public static Builder Default = new Builder(ImmutableArray<INode>.Empty);
+            public static Builder Create() =>
+                new Builder
+                {
+                    children = ImmutableArray.CreateBuilder<INode>(),
+                };
         }
     }
 }

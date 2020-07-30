@@ -20,23 +20,31 @@ namespace Mirai.Parsing
                 throw new ArgumentNullException(nameof(tokens));
 
             var tokenEnumerator = new TokenEnumerator(tokensArray);
-            var exp = CompilationUnit(tokenEnumerator);
-            if (exp == null || !tokenEnumerator.IsEnd)
+            var compilationUnitNode = CompilationUnit(tokenEnumerator);
+            if (compilationUnitNode == null || !tokenEnumerator.IsEnd)
                 throw new Exception(); // TODO:
 
-            return exp;
+            return compilationUnitNode;
         }
 
-        private CompilationUnitNode? CompilationUnit(TokenEnumerator tokenEnumerator)
+        private CompilationUnitNode CompilationUnit(TokenEnumerator tokenEnumerator)
         {
-            var usings = Usings(tokenEnumerator);
+            var builder = CompilationUnitNode.Builder.Create();
 
-            throw new NotImplementedException();
-        }
+            while (true)
+            {
+                var separators = Separators(tokenEnumerator);
+                if (!separators.IsEmpty)
+                    builder.AddSeparators(separators);
 
-        private IEnumerable<UsingNode>? Usings(TokenEnumerator tokenEnumerator)
-        {
-            throw new NotImplementedException();
+                var usingNode = Using(tokenEnumerator);
+                if (usingNode == null)
+                    break;
+
+                builder.AddUsing(usingNode);
+            }
+
+            return builder.Build();
         }
 
         private UsingNode? Using(TokenEnumerator tokenEnumerator)
@@ -57,7 +65,7 @@ namespace Mirai.Parsing
             if (semiColon == null)
                 throw new Exception(); // TODO:
 
-            var builder = UsingNode.Builder.Default
+            var builder = UsingNode.Builder.Create()
                 .AddUsing(usingKeyword)
                 .AddSeparators(separators)
                 .AddNamespace(qualifiedId)
@@ -80,7 +88,7 @@ namespace Mirai.Parsing
             if (qualifiedId == null)
                 throw new Exception(); // TODO:
 
-            var builder = NamespaceNode.Builder.Default
+            var builder = NamespaceNode.Builder.Create()
                 .AddNamespaceKeyword(keyword)
                 .AddSeparators(separators)
                 .AddNamespace(qualifiedId);
@@ -111,7 +119,7 @@ namespace Mirai.Parsing
             if (id == null)
                 return null;
 
-            var builder = QualifiedIdNode.Builder.Default
+            var builder = QualifiedIdNode.Builder.Create()
                 .AddId(id);
 
             SymbolToken? dot;
@@ -142,13 +150,13 @@ namespace Mirai.Parsing
 
         private ImmutableArray<IToken> Separators(TokenEnumerator tokenEnumerator)
         {
-            var separators = ImmutableArray<IToken>.Empty;
+            var builder = ImmutableArray.CreateBuilder<IToken>();
 
             IToken? separator;
             while ((separator = Separator(tokenEnumerator)) != null)
-                separators = separators.Add(separator);
+                builder.Add(separator);
 
-            return separators;
+            return builder.ToImmutableArray();
         }
 
         private IToken? Separator(TokenEnumerator tokenEnumerator)

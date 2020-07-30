@@ -16,25 +16,19 @@ namespace Mirai.Parsing.SyntaxNodes
 
         public struct Builder
         {
-            private ImmutableArray<INode> children;
+            private ImmutableArray<INode>.Builder children;
 
             private StringBuilder sb;
 
-            public Builder(ImmutableArray<INode> children)
-            {
-                this.children = children;
-                this.sb = new StringBuilder();
-            }
-
             public QualifiedIdNode Build()
             {
-                return new QualifiedIdNode(children, sb.ToString());
+                return new QualifiedIdNode(children.ToImmutableArray(), sb.ToString());
             }
 
             public Builder AddId(IdNode id)
             {
                 sb.Append(id.Name);
-                children = children.Add(id);
+                children.Add(id);
 
                 return this;
             }
@@ -42,12 +36,17 @@ namespace Mirai.Parsing.SyntaxNodes
             public Builder AddDot(SymbolToken dot)
             {
                 sb.Append('.'); // TODO:
-                children = children.Add(dot);
+                children.Add(dot);
 
                 return this;
             }
 
-            public static Builder Default = new Builder(ImmutableArray<INode>.Empty);
+            public static Builder Create()
+                => new Builder
+                {
+                    children = ImmutableArray.CreateBuilder<INode>(),
+                    sb = new StringBuilder(),
+                };
         }
     }
 }
