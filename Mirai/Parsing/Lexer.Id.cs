@@ -7,7 +7,7 @@ namespace Mirai.Parsing
     {
         private IToken? CreateId(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             var span = sourceCode.Span;
 
@@ -229,9 +229,10 @@ namespace Mirai.Parsing
             else if (Compare(id, "yield"))
                 keyword = Keywords.Yield;
 
-            var result = keyword?.AsToken(position.AddColumn(endIndex), sourceCode[..endIndex]) ??
-                         (IToken) new IdToken(sourceCode[..endIndex], position.AddColumn(endIndex));
+            var result = keyword?.AsToken(position, sourceCode[..endIndex]) ??
+                         (IToken) new IdToken(position, sourceCode[..endIndex]);
 
+            position = position.AdvanceColumnTo(endIndex);
             sourceCode = sourceCode[endIndex..];
 
             return result;

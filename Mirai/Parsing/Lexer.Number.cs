@@ -7,7 +7,7 @@ namespace Mirai.Parsing
     {
         private IToken? CreateNumber(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             throw new NotImplementedException();
         }

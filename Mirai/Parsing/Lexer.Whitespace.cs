@@ -9,7 +9,7 @@ namespace Mirai.Parsing
     {
         private IToken? CreateWhitespace(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             var span = sourceCode.Span;
 
@@ -20,8 +20,9 @@ namespace Mirai.Parsing
             if (index <= 0)
                 return null;
 
-            var token = Whitespace.AsToken(position.AddColumn(index), sourceCode[..index]);
+            var token = Whitespace.AsToken(position, sourceCode[..index]);
 
+            position = position.AdvanceColumnTo(index);
             sourceCode = sourceCode[index..];
 
             return token;

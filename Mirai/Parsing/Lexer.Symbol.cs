@@ -8,7 +8,7 @@ namespace Mirai.Parsing
     {
         private IToken? CreateSymbol(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             // TODO: generate? dictionary?
             Symbols? symbol = sourceCode.Span[0] switch
@@ -33,8 +33,9 @@ namespace Mirai.Parsing
             if (symbol == null)
                 return null;
 
-            var result = symbol.Value.AsToken(position.AddColumn(1), sourceCode[..1]);
+            var result = symbol.Value.AsToken(position, sourceCode[..1]);
 
+            position = position.AdvanceColumnTo(1);
             sourceCode = sourceCode[1..];
 
             return result;

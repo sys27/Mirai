@@ -8,7 +8,7 @@ namespace Mirai.Parsing
     {
         private IToken? CreateComment(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             var span = sourceCode.Span;
 
@@ -24,8 +24,10 @@ namespace Mirai.Parsing
                     index += length;
                 }
 
-                var token = XmlDoc.AsToken(position.AddColumn(index), sourceCode[..index]);
+                var token = XmlDoc.AsToken(position, sourceCode[..index]);
 
+                // TODO: handle new line
+                position = position.AdvanceColumnTo(index);
                 sourceCode = sourceCode[index..];
 
                 return token;
@@ -43,8 +45,9 @@ namespace Mirai.Parsing
                     index += length;
                 }
 
-                var token = SingleLine.AsToken(position.AddColumn(index), sourceCode[..index]);
+                var token = SingleLine.AsToken(position, sourceCode[..index]);
 
+                position = position.AdvanceColumnTo(index);
                 sourceCode = sourceCode[index..];
 
                 return token;
@@ -64,8 +67,10 @@ namespace Mirai.Parsing
                     index++;
                 }
 
-                var token = MultiLine.AsToken(position.AddColumn(index), sourceCode[..index]);
+                var token = MultiLine.AsToken(position, sourceCode[..index]);
 
+                // TODO: handle new line
+                position = position.AdvanceColumnTo(index);
                 sourceCode = sourceCode[index..];
 
                 return token;

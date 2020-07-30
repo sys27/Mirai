@@ -7,7 +7,7 @@ namespace Mirai.Parsing
     {
         private IToken? CreateString(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             var span = sourceCode.Span;
 
@@ -21,9 +21,9 @@ namespace Mirai.Parsing
             endIndex++;
 
             // TODO: string?
-            // TODO: handle position
             var token = LiteralType.String.AsToken(position, sourceCode[..endIndex]);
 
+            position = position.AdvanceColumnTo(endIndex);
             sourceCode = sourceCode[endIndex..];
 
             return token;

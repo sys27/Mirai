@@ -8,7 +8,7 @@ namespace Mirai.Parsing
     {
         private IToken? CreateCharacter(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             var span = sourceCode.Span;
             var index = 0;
@@ -22,8 +22,9 @@ namespace Mirai.Parsing
 
             index++;
 
-            var token = Character.AsToken(position.AddColumn(index), sourceCode[..index]);
+            var token = Character.AsToken(position, sourceCode[..index]);
 
+            position = position.AdvanceColumnTo(index);
             sourceCode = sourceCode[index..];
 
             return token;

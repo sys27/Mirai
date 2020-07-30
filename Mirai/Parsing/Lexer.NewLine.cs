@@ -8,15 +8,16 @@ namespace Mirai.Parsing
     {
         private IToken? CreateNewLine(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             var span = sourceCode.Span;
             var (found, length) = IsNewLine(span);
             if (!found)
                 return null;
 
-            var token = NewLine.AsToken(position.AddLine(1), sourceCode[..length]);
+            var token = NewLine.AsToken(position, sourceCode[..length]);
 
+            position = position.AdvanceLineTo(1);
             sourceCode = sourceCode[length..];
 
             return token;

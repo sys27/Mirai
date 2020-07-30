@@ -21,20 +21,18 @@ namespace Mirai.Parsing
 
             while (sourceCode.Length > 0)
             {
-                var result = CreateWhitespace(ref sourceCode, position) ??
-                             CreateNewLine(ref sourceCode, position) ??
-                             CreateComment(ref sourceCode, position) ??
-                             CreateSymbol(ref sourceCode, position) ??
-                             CreateId(ref sourceCode, position) ??
-                             CreateNumber(ref sourceCode, position) ??
-                             CreateString(ref sourceCode, position) ??
-                             CreateCharacter(ref sourceCode, position) ??
-                             CreatePreprocessorDirective(ref sourceCode, position);
+                var result = CreateWhitespace(ref sourceCode, ref position) ??
+                             CreateNewLine(ref sourceCode, ref position) ??
+                             CreateComment(ref sourceCode, ref position) ??
+                             CreateSymbol(ref sourceCode, ref position) ??
+                             CreateId(ref sourceCode, ref position) ??
+                             // CreateNumber(ref sourceCode, ref position) ??
+                             CreateString(ref sourceCode, ref position) ??
+                             CreateCharacter(ref sourceCode, ref position) ??
+                             CreatePreprocessorDirective(ref sourceCode, ref position);
 
                 if (result == null)
                     throw new Exception(); // TODO:
-
-                position = result.SourcePosition;
 
                 yield return result;
             }

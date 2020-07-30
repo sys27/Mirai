@@ -7,7 +7,7 @@ namespace Mirai.Parsing
     {
         private IToken? CreatePreprocessorDirective(
             ref ReadOnlyMemory<char> sourceCode,
-            SourcePosition position)
+            ref SourcePosition position)
         {
             var span = sourceCode.Span;
 
@@ -54,8 +54,9 @@ namespace Mirai.Parsing
             if (directive == null)
                 return null;
 
-            var token = directive.Value.AsToken(position.AddColumn(index), sourceCode[..index]);
+            var token = directive.Value.AsToken(position, sourceCode[..index]);
 
+            position = position.AdvanceColumnTo(index);
             sourceCode = sourceCode[index..];
 
             return token;

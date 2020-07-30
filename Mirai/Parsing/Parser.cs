@@ -14,12 +14,7 @@ namespace Mirai.Parsing
             if (tokens == null)
                 throw new ArgumentNullException(nameof(tokens));
 
-            // TODO: !!!
-            var tokensArray = tokens as IToken[] ?? tokens.ToArray();
-            if (!tokensArray.Any())
-                throw new ArgumentNullException(nameof(tokens));
-
-            var tokenEnumerator = new TokenEnumerator(tokensArray);
+            var tokenEnumerator = new TokenEnumerator(tokens);
             var compilationUnitNode = CompilationUnit(tokenEnumerator);
             if (compilationUnitNode == null || !tokenEnumerator.IsEnd)
                 throw new Exception(); // TODO:
