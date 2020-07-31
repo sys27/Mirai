@@ -8,27 +8,32 @@ namespace Mirai.Parsing.SyntaxNodes
         private CompilationUnitNode(
             ImmutableArray<INode> children,
             ImmutableArray<UsingNode> usings,
-            ImmutableArray<NamespaceNode> namespaces)
+            ImmutableArray<NamespaceNode> namespaces,
+            ImmutableArray<ClassNode> classes)
             : base(children)
         {
             Usings = usings;
             Namespaces = namespaces;
+            Classes = classes;
         }
 
         public ImmutableArray<UsingNode> Usings { get; }
         public ImmutableArray<NamespaceNode> Namespaces { get; }
+        public ImmutableArray<ClassNode> Classes { get; }
 
         public struct Builder
         {
             private ImmutableArray<INode>.Builder children;
             private ImmutableArray<UsingNode>.Builder usings;
             private ImmutableArray<NamespaceNode>.Builder namespaces;
+            private ImmutableArray<ClassNode>.Builder classes;
 
             public CompilationUnitNode Build()
                 => new CompilationUnitNode(
                     children.ToImmutableArray(),
                     usings.ToImmutableArray(),
-                    namespaces.ToImmutableArray());
+                    namespaces.ToImmutableArray(),
+                    classes.ToImmutableArray());
 
             public Builder AddUsing(UsingNode usingNode)
             {
@@ -46,6 +51,14 @@ namespace Mirai.Parsing.SyntaxNodes
                 return this;
             }
 
+            public Builder AddClass(ClassNode classNode)
+            {
+                children.Add(classNode);
+                classes.Add(classNode);
+
+                return this;
+            }
+
             public Builder AddSeparators(ImmutableArray<IToken> separators)
             {
                 children.AddRange(separators);
@@ -59,6 +72,7 @@ namespace Mirai.Parsing.SyntaxNodes
                     children = ImmutableArray.CreateBuilder<INode>(),
                     usings = ImmutableArray.CreateBuilder<UsingNode>(),
                     namespaces = ImmutableArray.CreateBuilder<NamespaceNode>(),
+                    classes = ImmutableArray.CreateBuilder<ClassNode>(),
                 };
         }
     }

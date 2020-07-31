@@ -7,10 +7,14 @@ namespace Mirai.Parsing.SyntaxNodes
     {
         private ClassNode(
             ImmutableArray<INode> children,
-            AccessModifier accessModifier)
+            AccessModifier accessModifier,
+            IdNode name,
+            ImmutableArray<MethodNode> methods)
             : base(children)
         {
             AccessModifier = accessModifier;
+            Name = name;
+            Methods = methods;
         }
 
         public AccessModifier AccessModifier { get; }
@@ -30,11 +34,15 @@ namespace Mirai.Parsing.SyntaxNodes
             private ImmutableArray<INode>.Builder children;
 
             private AccessModifier accessModifier;
+            private IdNode? name;
+            private ImmutableArray<MethodNode>.Builder methods;
 
             public ClassNode Build()
                 => new ClassNode(
                     children.ToImmutableArray(),
-                    accessModifier);
+                    accessModifier,
+                    name,
+                    methods.ToImmutableArray());
 
             public Builder AddSeparators(ImmutableArray<IToken> separators)
             {
@@ -58,11 +66,28 @@ namespace Mirai.Parsing.SyntaxNodes
                 return this;
             }
 
+            public Builder AddName(IdNode name)
+            {
+                children.Add(name);
+                this.name = name;
+
+                return this;
+            }
+
+            public Builder AddMethod(MethodNode methodNode)
+            {
+                children.Add(methodNode);
+                methods.Add(methodNode);
+
+                return this;
+            }
+
             public static Builder Create()
                 => new Builder
                 {
                     children = ImmutableArray.CreateBuilder<INode>(),
                     accessModifier = AccessModifier.Internal,
+                    methods = ImmutableArray.CreateBuilder<MethodNode>(),
                 };
         }
     }

@@ -18,7 +18,7 @@ namespace Mirai.Parsing
 
             private bool MoveNext()
             {
-                return IsEnd = enumerator.MoveNext();
+                return IsEnd = !enumerator.MoveNext();
             }
 
             private TToken? Peek<TToken>() where TToken : class, IToken
@@ -52,6 +52,19 @@ namespace Mirai.Parsing
             {
                 var token = Peek<KeywordToken>();
                 if (token?.Keyword == keyword)
+                {
+                    MoveNext();
+
+                    return token;
+                }
+
+                return null;
+            }
+
+            public LiteralToken? Literal(LiteralType literalType)
+            {
+                var token = Peek<LiteralToken>();
+                if (token?.Type == literalType)
                 {
                     MoveNext();
 

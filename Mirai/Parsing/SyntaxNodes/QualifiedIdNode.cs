@@ -6,13 +6,13 @@ namespace Mirai.Parsing.SyntaxNodes
 {
     public class QualifiedIdNode : SyntaxNode
     {
-        private QualifiedIdNode(ImmutableArray<INode> children, string @namespace)
+        private QualifiedIdNode(ImmutableArray<INode> children, string id)
             : base(children)
         {
-            Namespace = @namespace;
+            Id = id;
         }
 
-        public string Namespace { get; } // TODO:
+        public string Id { get; } // TODO:
 
         public struct Builder
         {
