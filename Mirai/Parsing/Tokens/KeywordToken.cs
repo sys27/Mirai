@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Mirai.Parsing.SyntaxNodes;
 
 namespace Mirai.Parsing.Tokens
 {

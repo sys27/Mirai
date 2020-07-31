@@ -6,7 +6,7 @@ namespace Mirai.Parsing.SyntaxNodes
         Protected,
         Internal,
         ProtectedInternal,
-        InternalProtected,
+        PrivateProtected,
         Public
     }
 }

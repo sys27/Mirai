@@ -32,10 +32,20 @@ namespace Mirai.Parsing
                     builder.AddSeparators(separators);
 
                 var usingNode = Using(tokenEnumerator);
-                if (usingNode == null)
-                    break;
+                if (usingNode != null)
+                {
+                    builder.AddUsing(usingNode);
+                    continue;
+                }
 
-                builder.AddUsing(usingNode);
+                var @namespace = Namespace(tokenEnumerator);
+                if (@namespace != null)
+                {
+                    builder.AddNamespace(@namespace);
+                    continue;
+                }
+
+                break;
             }
 
             return builder.Build();
@@ -92,19 +102,35 @@ namespace Mirai.Parsing
             return builder.Build();
         }
 
-        private ISyntaxNode TypeDeclarations(TokenEnumerator tokenEnumerator)
+        private ISyntaxNode? TypeDeclaration(TokenEnumerator tokenEnumerator)
         {
-            throw new NotImplementedException();
-        }
-
-        private ISyntaxNode TypeDeclaration(TokenEnumerator tokenEnumerator)
-        {
-            throw new NotImplementedException();
+            return Class(tokenEnumerator);
         }
 
         private ClassNode? Class(TokenEnumerator tokenEnumerator)
         {
-            throw new NotImplementedException();
+            // TODO: !!!
+            var builder = ClassNode.Builder.Create();
+
+            var publicKeyword = tokenEnumerator.Keyword(Keywords.Public);
+            if (publicKeyword != null)
+                builder.AddAccessModifier(publicKeyword);
+
+            var separators = Separators(tokenEnumerator);
+            if (!separators.IsEmpty)
+                builder.AddSeparators(separators);
+
+            var classKeyword = tokenEnumerator.Keyword(Keywords.Class);
+            if (classKeyword != null)
+                builder.AddClassKeyword(classKeyword);
+
+            separators = Separators(tokenEnumerator);
+            if (!separators.IsEmpty)
+                builder.AddSeparators(separators);
+
+            // TODO: body
+
+            return builder.Build();
         }
 
         private QualifiedIdNode? QualifiedId(TokenEnumerator tokenEnumerator)
