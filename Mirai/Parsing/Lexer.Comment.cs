@@ -6,11 +6,9 @@ namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private IToken? CreateComment(
-            ref ReadOnlyMemory<char> sourceCode,
-            ref SourcePosition position)
+        private IToken? CreateComment(ref SourceReference reference)
         {
-            var span = sourceCode.Span;
+            var span = reference.Span;
 
             if (span.StartsWith(XmlDocSpan))
             {
@@ -24,11 +22,10 @@ namespace Mirai.Parsing
                     index += length;
                 }
 
-                var token = XmlDoc.AsToken(position, sourceCode[..index]);
+                var token = XmlDoc.AsToken(reference.ForToken(index));
 
                 // TODO: handle new line
-                position = position.AdvanceColumnTo(index);
-                sourceCode = sourceCode[index..];
+                reference = reference.AdvanceColumnTo(index);
 
                 return token;
             }
@@ -45,10 +42,9 @@ namespace Mirai.Parsing
                     index += length;
                 }
 
-                var token = SingleLine.AsToken(position, sourceCode[..index]);
+                var token = SingleLine.AsToken(reference.ForToken(index));
 
-                position = position.AdvanceColumnTo(index);
-                sourceCode = sourceCode[index..];
+                reference = reference.AdvanceColumnTo(index);
 
                 return token;
             }
@@ -67,11 +63,10 @@ namespace Mirai.Parsing
                     index++;
                 }
 
-                var token = MultiLine.AsToken(position, sourceCode[..index]);
+                var token = MultiLine.AsToken(reference.ForToken(index));
 
                 // TODO: handle new line
-                position = position.AdvanceColumnTo(index);
-                sourceCode = sourceCode[index..];
+                reference = reference.AdvanceColumnTo(index);
 
                 return token;
             }

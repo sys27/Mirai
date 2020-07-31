@@ -1,5 +1,3 @@
-using System;
-
 namespace Mirai.Parsing.Tokens
 {
     public enum LiteralType
@@ -13,10 +11,7 @@ namespace Mirai.Parsing.Tokens
     public static class LiteralTypeExtensions
     {
         // TODO: to static factory methods?
-        public static LiteralToken AsToken(
-            this LiteralType keyword,
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            => new LiteralToken(keyword, sourcePosition, sourceCode);
+        public static LiteralToken AsToken(this LiteralType keyword, SourceReference sourceReference)
+            => new LiteralToken(keyword, sourceReference);
     }
 }

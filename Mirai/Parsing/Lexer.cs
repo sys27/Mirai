@@ -17,19 +17,20 @@ namespace Mirai.Parsing
 
         public IEnumerable<IToken> Tokenize(ReadOnlyMemory<char> sourceCode)
         {
-            var position = SourcePosition.Default;
+            var reference = new SourceReference(sourceCode);
 
-            while (sourceCode.Length > 0)
+            while (!reference.IsEmpty)
             {
-                var result = CreateWhitespace(ref sourceCode, ref position) ??
-                             CreateNewLine(ref sourceCode, ref position) ??
-                             CreateComment(ref sourceCode, ref position) ??
-                             CreateSymbol(ref sourceCode, ref position) ??
-                             CreateId(ref sourceCode, ref position) ??
-                             // CreateNumber(ref sourceCode, ref position) ??
-                             CreateString(ref sourceCode, ref position) ??
-                             CreateCharacter(ref sourceCode, ref position) ??
-                             CreatePreprocessorDirective(ref sourceCode, ref position);
+                // TODO: return tuple?
+                var result = CreateWhitespace(ref reference) ??
+                             CreateNewLine(ref reference) ??
+                             CreateComment(ref reference) ??
+                             CreateSymbol(ref reference) ??
+                             CreateId(ref reference) ??
+                             // CreateNumber(ref reference) ??
+                             CreateString(ref reference) ??
+                             CreateCharacter(ref reference) ??
+                             CreatePreprocessorDirective(ref reference);
 
                 if (result == null)
                     throw new Exception(); // TODO:

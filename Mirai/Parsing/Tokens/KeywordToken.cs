@@ -6,11 +6,8 @@ namespace Mirai.Parsing.Tokens
     [DebuggerDisplay("Keyword: {" + nameof(Keyword) + "}")]
     public class KeywordToken : Token, IEquatable<KeywordToken>
     {
-        public KeywordToken(
-            Keywords keyword,
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            : base(sourcePosition, sourceCode)
+        public KeywordToken(Keywords keyword, SourceReference sourceReference)
+            : base(sourceReference)
         {
             Keyword = keyword;
         }
@@ -41,7 +38,7 @@ namespace Mirai.Parsing.Tokens
             => HashCode.Combine(Keyword);
 
         public override string ToString()
-            => Keyword.ToString();
+            => $"{Keyword} ({SourceReference.Position})";
 
         public Keywords Keyword { get; }
     }

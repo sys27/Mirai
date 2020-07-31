@@ -6,11 +6,8 @@ namespace Mirai.Parsing.Tokens
     [DebuggerDisplay("Symbol: {" + nameof(Symbol) + "}")]
     public class SymbolToken : Token, IEquatable<SymbolToken>
     {
-        public SymbolToken(
-            Symbols symbol,
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            : base(sourcePosition, sourceCode)
+        public SymbolToken(Symbols symbol, SourceReference sourceReference)
+            : base(sourceReference)
         {
             Symbol = symbol;
         }
@@ -39,6 +36,9 @@ namespace Mirai.Parsing.Tokens
 
         public override int GetHashCode()
             => HashCode.Combine(Symbol);
+
+        public override string ToString()
+            => $"{Symbol} ({SourceReference.Position})";
 
         public Symbols Symbol { get; }
     }

@@ -6,9 +6,8 @@ namespace Mirai.Parsing.Tokens
     {
         public PreprocessorDirectiveToken(
             PreprocessorDirectives directive,
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            : base(sourcePosition, sourceCode)
+            SourceReference sourceReference)
+            : base(sourceReference)
         {
             Directive = directive;
         }
@@ -37,6 +36,9 @@ namespace Mirai.Parsing.Tokens
 
         public override int GetHashCode()
             => HashCode.Combine(Directive);
+
+        public override string ToString()
+            => $"{Directive} ({SourceReference.Position})";
 
         public PreprocessorDirectives Directive { get; }
     }

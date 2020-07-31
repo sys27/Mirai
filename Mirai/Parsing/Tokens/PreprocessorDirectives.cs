@@ -1,5 +1,3 @@
-using System;
-
 namespace Mirai.Parsing.Tokens
 {
     public enum PreprocessorDirectives
@@ -23,8 +21,7 @@ namespace Mirai.Parsing.Tokens
     {
         public static PreprocessorDirectiveToken AsToken(
             this PreprocessorDirectives directive,
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            => new PreprocessorDirectiveToken(directive, sourcePosition, sourceCode);
+            SourceReference sourceReference)
+            => new PreprocessorDirectiveToken(directive, sourceReference);
     }
 }

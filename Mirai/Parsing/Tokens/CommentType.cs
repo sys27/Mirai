@@ -1,5 +1,3 @@
-using System;
-
 namespace Mirai.Parsing.Tokens
 {
     public enum CommentType
@@ -12,10 +10,7 @@ namespace Mirai.Parsing.Tokens
     public static class CommentTypeExtensions
     {
         // TODO: to static factory methods?
-        public static CommentToken AsToken(
-            this CommentType type,
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            => new CommentToken(type, sourcePosition, sourceCode);
+        public static CommentToken AsToken(this CommentType type, SourceReference sourceReference)
+            => new CommentToken(type, sourceReference);
     }
 }

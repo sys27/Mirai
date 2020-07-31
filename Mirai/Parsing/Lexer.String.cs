@@ -1,15 +1,12 @@
-using System;
 using Mirai.Parsing.Tokens;
 
 namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private IToken? CreateString(
-            ref ReadOnlyMemory<char> sourceCode,
-            ref SourcePosition position)
+        private IToken? CreateString(ref SourceReference reference)
         {
-            var span = sourceCode.Span;
+            var span = reference.Span;
 
             if (span[0] != '"')
                 return null;
@@ -21,10 +18,9 @@ namespace Mirai.Parsing
             endIndex++;
 
             // TODO: string?
-            var token = LiteralType.String.AsToken(position, sourceCode[..endIndex]);
+            var token = LiteralType.String.AsToken(reference.ForToken(endIndex));
 
-            position = position.AdvanceColumnTo(endIndex);
-            sourceCode = sourceCode[endIndex..];
+            reference = reference.AdvanceColumnTo(endIndex);
 
             return token;
         }

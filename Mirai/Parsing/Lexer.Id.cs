@@ -1,15 +1,12 @@
-using System;
 using Mirai.Parsing.Tokens;
 
 namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private IToken? CreateId(
-            ref ReadOnlyMemory<char> sourceCode,
-            ref SourcePosition position)
+        private IToken? CreateId(ref SourceReference reference)
         {
-            var span = sourceCode.Span;
+            var span = reference.Span;
 
             if (!char.IsLetter(span[0]) && span[0] != '_' && span[0] != '@')
                 return null;
@@ -229,11 +226,10 @@ namespace Mirai.Parsing
             else if (Compare(id, "yield"))
                 keyword = Keywords.Yield;
 
-            var result = keyword?.AsToken(position, sourceCode[..endIndex]) ??
-                         (IToken) new IdToken(position, sourceCode[..endIndex]);
+            var result = keyword?.AsToken(reference.ForToken(endIndex)) ??
+                         (IToken) new IdToken(reference.ForToken(endIndex));
 
-            position = position.AdvanceColumnTo(endIndex);
-            sourceCode = sourceCode[endIndex..];
+            reference = reference.AdvanceColumnTo(endIndex);
 
             return result;
         }

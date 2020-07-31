@@ -4,11 +4,9 @@ namespace Mirai.Parsing.Tokens
 {
     public class LiteralToken : Token, IEquatable<LiteralToken>
     {
-        public LiteralToken(
-            LiteralType type, // TODO: to types?
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            : base(sourcePosition, sourceCode)
+        // TODO: to types?
+        public LiteralToken(LiteralType type, SourceReference sourceReference)
+            : base(sourceReference)
         {
             Type = type;
         }
@@ -37,6 +35,9 @@ namespace Mirai.Parsing.Tokens
 
         public override int GetHashCode()
             => HashCode.Combine(Type);
+
+        public override string ToString()
+            => $"{Type} ({SourceReference.Position})";
 
         public LiteralType Type { get; }
     }

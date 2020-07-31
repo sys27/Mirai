@@ -24,6 +24,9 @@ namespace Mirai.Parsing
         public override int GetHashCode()
             => HashCode.Combine(Line, Column);
 
+        public override string ToString()
+            => $"{Line}, {Column}";
+
         public static bool operator ==(SourcePosition left, SourcePosition right)
             => left.Equals(right);
 

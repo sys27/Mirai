@@ -1,5 +1,3 @@
-using System;
-
 namespace Mirai.Parsing.Tokens
 {
     public enum Symbols
@@ -24,10 +22,7 @@ namespace Mirai.Parsing.Tokens
 
     public static class SymbolsExtensions
     {
-        public static SymbolToken AsToken(
-            this Symbols symbol,
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            => new SymbolToken(symbol, sourcePosition, sourceCode);
+        public static SymbolToken AsToken(this Symbols symbol, SourceReference sourceReference)
+            => new SymbolToken(symbol, sourceReference);
     }
 }

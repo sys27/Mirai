@@ -3,13 +3,11 @@ using System.Diagnostics;
 
 namespace Mirai.Parsing.Tokens
 {
-    [DebuggerDisplay("Id: {" + nameof(Id) + "}")]
-    public class IdToken : IToken, IEquatable<IdToken>
+    public class IdToken : Token, IEquatable<IdToken>
     {
-        public IdToken(SourcePosition sourcePosition, ReadOnlyMemory<char> id)
+        public IdToken(SourceReference sourceReference)
+            : base(sourceReference)
         {
-            SourcePosition = sourcePosition;
-            Id = id;
         }
 
         public bool Equals(IdToken? other)
@@ -19,8 +17,7 @@ namespace Mirai.Parsing.Tokens
             if (ReferenceEquals(this, other))
                 return true;
 
-            return SourcePosition == other.SourcePosition &&
-                   SourceCode.Span.SequenceEqual(other.SourceCode.Span);
+            return SourceReference == other.SourceReference;
         }
 
         public override bool Equals(object? obj)
@@ -36,13 +33,11 @@ namespace Mirai.Parsing.Tokens
         }
 
         public override int GetHashCode()
-            => HashCode.Combine(Id, SourcePosition);
+            => HashCode.Combine(SourceReference);
 
         public override string ToString()
-            => Id.ToString();
+            => $"{Id} ({SourceReference.Position})";
 
-        public ReadOnlyMemory<char> Id { get; }
-        public SourcePosition SourcePosition { get; }
-        public ReadOnlyMemory<char> SourceCode => Id;
+        public ReadOnlyMemory<char> Id => SourceReference.SourceCode;
     }
 }

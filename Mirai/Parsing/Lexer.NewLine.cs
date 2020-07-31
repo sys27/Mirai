@@ -6,19 +6,16 @@ namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private IToken? CreateNewLine(
-            ref ReadOnlyMemory<char> sourceCode,
-            ref SourcePosition position)
+        private IToken? CreateNewLine(ref SourceReference reference)
         {
-            var span = sourceCode.Span;
+            var span = reference.Span;
             var (found, length) = IsNewLine(span);
             if (!found)
                 return null;
 
-            var token = NewLine.AsToken(position, sourceCode[..length]);
+            var token = NewLine.AsToken(reference.ForToken(length));
 
-            position = position.AdvanceLineTo(1);
-            sourceCode = sourceCode[length..];
+            reference = reference.AdvanceLineTo(length);
 
             return token;
         }

@@ -1,4 +1,3 @@
-using System;
 using Mirai.Parsing.Tokens;
 using static Mirai.Parsing.Tokens.Symbols;
 
@@ -6,12 +5,10 @@ namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private IToken? CreateSymbol(
-            ref ReadOnlyMemory<char> sourceCode,
-            ref SourcePosition position)
+        private IToken? CreateSymbol(ref SourceReference reference)
         {
             // TODO: generate? dictionary?
-            Symbols? symbol = sourceCode.Span[0] switch
+            Symbols? symbol = reference.Span[0] switch
             {
                 '(' => OpenParenthesis,
                 ')' => CloseParenthesis,
@@ -33,10 +30,9 @@ namespace Mirai.Parsing
             if (symbol == null)
                 return null;
 
-            var result = symbol.Value.AsToken(position, sourceCode[..1]);
+            var result = symbol.Value.AsToken(reference.ForToken(1));
 
-            position = position.AdvanceColumnTo(1);
-            sourceCode = sourceCode[1..];
+            reference = reference.AdvanceColumnTo(1);
 
             return result;
         }

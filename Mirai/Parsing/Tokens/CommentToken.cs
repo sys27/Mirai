@@ -4,11 +4,8 @@ namespace Mirai.Parsing.Tokens
 {
     public class CommentToken : Token, IEquatable<CommentToken>
     {
-        public CommentToken(
-            CommentType type,
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
-            : base(sourcePosition, sourceCode)
+        public CommentToken(CommentType type, SourceReference sourceReference)
+            : base(sourceReference)
         {
             Type = type;
         }
@@ -37,6 +34,9 @@ namespace Mirai.Parsing.Tokens
 
         public override int GetHashCode()
             => HashCode.Combine(Type);
+
+        public override string ToString()
+            => $"{Type} ({SourceReference.Position})";
 
         public CommentType Type { get; }
     }

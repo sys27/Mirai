@@ -4,12 +4,9 @@ namespace Mirai.Parsing.Tokens
 {
     public abstract class Token : IToken, IEquatable<Token>
     {
-        protected Token(
-            SourcePosition sourcePosition,
-            ReadOnlyMemory<char> sourceCode)
+        protected Token(SourceReference sourceReference)
         {
-            SourcePosition = sourcePosition;
-            SourceCode = sourceCode;
+            SourceReference = sourceReference;
         }
 
         public bool Equals(Token? other)
@@ -19,8 +16,7 @@ namespace Mirai.Parsing.Tokens
             if (ReferenceEquals(this, other))
                 return true;
 
-            return SourcePosition == other.SourcePosition &&
-                   SourceCode.Span.SequenceEqual(other.SourceCode.Span);
+            return SourceReference == other.SourceReference;
         }
 
         public override bool Equals(object? obj)
@@ -36,9 +32,8 @@ namespace Mirai.Parsing.Tokens
         }
 
         public override int GetHashCode()
-            => HashCode.Combine(SourcePosition, SourceCode);
+            => HashCode.Combine(SourceReference);
 
-        public SourcePosition SourcePosition { get; }
-        public ReadOnlyMemory<char> SourceCode { get; }
+        public SourceReference SourceReference { get; }
     }
 }

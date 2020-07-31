@@ -5,9 +5,7 @@ namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private IToken? CreateNumber(
-            ref ReadOnlyMemory<char> sourceCode,
-            ref SourcePosition position)
+        private IToken? CreateNumber(ref SourceReference reference)
         {
             throw new NotImplementedException();
         }

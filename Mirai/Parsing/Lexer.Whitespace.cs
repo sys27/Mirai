@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.CompilerServices;
 using Mirai.Parsing.Tokens;
 using static Mirai.Parsing.Tokens.Symbols;
@@ -7,11 +6,9 @@ namespace Mirai.Parsing
 {
     public partial class Lexer
     {
-        private IToken? CreateWhitespace(
-            ref ReadOnlyMemory<char> sourceCode,
-            ref SourcePosition position)
+        private IToken? CreateWhitespace(ref SourceReference reference)
         {
-            var span = sourceCode.Span;
+            var span = reference.Span;
 
             var index = 0;
             while (IsWhitespace(span[index]))
@@ -20,10 +17,9 @@ namespace Mirai.Parsing
             if (index <= 0)
                 return null;
 
-            var token = Whitespace.AsToken(position, sourceCode[..index]);
+            var token = Whitespace.AsToken(reference.ForToken(index));
 
-            position = position.AdvanceColumnTo(index);
-            sourceCode = sourceCode[index..];
+            reference = reference.AdvanceColumnTo(index);
 
             return token;
         }
